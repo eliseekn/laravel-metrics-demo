@@ -18,7 +18,7 @@ class OrderFactory extends Factory
         return [
             'user_id' => User::factory(),
             'product_id' => Product::factory(),
-            'created_at' => $this->faker->dateTimeBetween('-3 months')
+            'created_at' => $this->faker->dateTimeBetween('-12 months')
         ];
     }
 }

@@ -50,11 +50,12 @@
 
                             <div>
                                 <select id="users-trends" class="form-select">
-                                    <option value="week" {{ Request::get('period') === 'week' ? 'selected' : '' }}>This month</option>
-                                    <option value="quater_year" {{ Request::get('period') === 'quater_year' ? 'selected' : '' }}>This quater year</option>
-                                    <option value="half_year" {{ Request::get('period') === 'half_year' ? 'selected' : '' }}>This half year</option>
-                                    <option value="month" {{ Request::get('period') === 'month' ? 'selected' : '' }}>This year</option>
-                                    <option value="custom" {{ !in_array(Request::get('period'), ['week', 'quater_year', 'half_year', 'month']) && !is_null(Request::get('period')) ? 'selected' : '' }}>Custom</option>
+                                    <option value="day" {{ request()->get('period') === 'day' ? 'selected' : '' }}>This week</option>
+                                    <option value="week" {{ request()->get('period') === 'week' ? 'selected' : '' }}>This month</option>
+                                    <option value="quater_year" {{ request()->get('period') === 'quater_year' ? 'selected' : '' }}>This quater year</option>
+                                    <option value="half_year" {{ request()->get('period') === 'half_year' ? 'selected' : '' }}>This half year</option>
+                                    <option value="month" {{ request()->get('period') === 'month' ? 'selected' : '' }}>This year</option>
+                                    <option value="custom" {{ !in_array(request()->get('period'), ['day', 'week', 'quater_year', 'half_year', 'month']) && !is_null(request()->get('period')) ? 'selected' : '' }}>Custom</option>
                                 </select>
                             </div>
                         </div>
@@ -77,7 +78,7 @@
     </div>
 
     <script defer src="https://cdn.jsdelivr.net/npm/chart.js@3.7.1/dist/chart.min.js"></script>
-    <script defer src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <script>
         function drawUsersChart(chartData) {
@@ -136,7 +137,7 @@
                 } else {
                     Swal.fire({
                         html: `
-                            <p clsss="mt-3">Define period :</p>
+                            <p class="mt-3">Define period :</p>
 
                             <div>
                                 <label for="start_date" class="form-label text-start">Start</label>
@@ -160,7 +161,9 @@
                         showCancelButton: true,
                         cancelButtonText: 'Annuler',
                     }).then(result => {
-                        if (!result.isConfirmed) return
+                        if (!result.isConfirmed) {
+                            return
+                        }
 
                         window.location.href = "{{ config('app.url') }}?period=" + result.value.startDate + '~' + result.value.endDate
                     })
