@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "e6cea0c4d3b90f4d01e45cc981cb807d",
+    "content-hash": "ed0b8c3b41f82d3950c2d4b754884a22",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -490,16 +490,16 @@
         },
         {
             "name": "eliseekn/laravel-metrics",
-            "version": "2.0.3.x-dev",
+            "version": "v2.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/eliseekn/laravel-metrics.git",
-                "reference": "977d965dd8ddaa6be33a43ae145700734f8774a3"
+                "reference": "23a1c03ddefe66d2b1e53b438ab696b91d568342"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/eliseekn/laravel-metrics/zipball/977d965dd8ddaa6be33a43ae145700734f8774a3",
-                "reference": "977d965dd8ddaa6be33a43ae145700734f8774a3",
+                "url": "https://api.github.com/repos/eliseekn/laravel-metrics/zipball/23a1c03ddefe66d2b1e53b438ab696b91d568342",
+                "reference": "23a1c03ddefe66d2b1e53b438ab696b91d568342",
                 "shasum": ""
             },
             "require": {
@@ -511,7 +511,6 @@
             "require-dev": {
                 "phpunit/phpunit": "^9.6"
             },
-            "default-branch": true,
             "type": "library",
             "extra": {
                 "laravel": {
@@ -547,9 +546,9 @@
             ],
             "support": {
                 "issues": "https://github.com/eliseekn/laravel-metrics/issues",
-                "source": "https://github.com/eliseekn/laravel-metrics/tree/v2.0.3"
+                "source": "https://github.com/eliseekn/laravel-metrics/tree/v2.1.0"
             },
-            "time": "2023-08-23T23:02:07+00:00"
+            "time": "2023-08-24T20:31:29+00:00"
         },
         {
             "name": "fruitcake/laravel-cors",
@@ -7720,7 +7719,6 @@
     "aliases": [],
     "minimum-stability": "dev",
     "stability-flags": {
-        "eliseekn/laravel-metrics": 20,
         "fruitcake/laravel-cors": 20
     },
     "prefer-stable": true,

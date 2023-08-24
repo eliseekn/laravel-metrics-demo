@@ -10,9 +10,22 @@
 <body>
 
     <div class="container py-5">
-        <h1 class="mb-5">Dashboard</h1>
+        <div class="d-flex justify-content-between align-items-md-center flex-md-row flex-column mb-4">
+            <h1>Dashboard</h1>
 
-        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 gy-4">
+            <div>
+                <select id="users-trends" class="form-select">
+                    <option value="day" {{ request()->get('period') === 'day' ? 'selected' : '' }}>This week</option>
+                    <option value="week" {{ request()->get('period') === 'week' ? 'selected' : '' }}>This month</option>
+                    <option value="quater_year" {{ request()->get('period') === 'quater_year' ? 'selected' : '' }}>This quater year</option>
+                    <option value="half_year" {{ request()->get('period') === 'half_year' ? 'selected' : '' }}>This half year</option>
+                    <option value="month" {{ request()->get('period') === 'month' ? 'selected' : '' }}>This year</option>
+                    <option value="custom" {{ !in_array(request()->get('period'), ['day', 'week', 'quater_year', 'half_year', 'month']) && !is_null(request()->get('period')) ? 'selected' : '' }}>Custom</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3">
             <div class="col">
                 <div class="card shadow-sm h-100">
                     <div class="card-body">
@@ -41,25 +54,35 @@
             </div>
         </div>
 
-        <div class="row mt-5">
+        <div class="row mt-4">
             <div class="col-lg-6 mb-5 mb-lg-0">
                 <div class="card shadow-sm h-100">
                     <div class="card-body">
-                        <div class="d-flex justify-content-between align-items-md-center flex-md-row flex-column mb-3">
-                            <h5 class="card-title text-capitalize">Registered users</h5>
-
-                            <div>
-                                <select id="users-trends" class="form-select">
-                                    <option value="day" {{ request()->get('period') === 'day' ? 'selected' : '' }}>This week</option>
-                                    <option value="week" {{ request()->get('period') === 'week' ? 'selected' : '' }}>This month</option>
-                                    <option value="quater_year" {{ request()->get('period') === 'quater_year' ? 'selected' : '' }}>This quater year</option>
-                                    <option value="half_year" {{ request()->get('period') === 'half_year' ? 'selected' : '' }}>This half year</option>
-                                    <option value="month" {{ request()->get('period') === 'month' ? 'selected' : '' }}>This year</option>
-                                    <option value="custom" {{ !in_array(request()->get('period'), ['day', 'week', 'quater_year', 'half_year', 'month']) && !is_null(request()->get('period')) ? 'selected' : '' }}>Custom</option>
-                                </select>
-                            </div>
+                        <h5 class="card-title text-capitalize mb-3">Orders Status</h5>
+                        <div style="height: 350px">
+                            <canvas id="orders-status-chart"></canvas>
                         </div>
+                    </div>
+                </div>
+            </div>
 
+            <div class="col-lg-6">
+                <div class="card shadow-sm h-100">
+                    <div class="card-body">
+                        <h5 class="card-title text-capitalize mb-3">Products Status</h5>
+                        <div style="height: 350px">
+                            <canvas id="products-status-chart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row mt-4">
+            <div class="col-lg-6 mb-5 mb-lg-0">
+                <div class="card shadow-sm h-100">
+                    <div class="card-body">
+                        <h5 class="card-title text-capitalize">Registered users</h5>
                         <canvas id="users-chart" height="250"></canvas>
                     </div>
                 </div>
@@ -69,7 +92,6 @@
                 <div class="card shadow-sm h-100">
                     <div class="card-body">
                         <h5 class="card-title text-capitalize mb-3">Orders</h5>
-
                         <canvas id="orders-chart" height="250"></canvas>
                     </div>
                 </div>
@@ -127,9 +149,59 @@
             })
         }
 
+        function drawOrdersStatusChart(chartData) {
+            let ctx = document.querySelector('#orders-status-chart')
+
+            return new Chart(ctx, {
+                type: 'pie',
+                data: {
+                    labels: chartData.labels,
+                    datasets: [{
+                        label: 'Orders status',
+                        fill: false,
+                        data: chartData.data,
+                        borderWidth: 3,
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    title: {
+                        display: false,
+                    }
+                }
+            })
+        }
+
+        function drawProductsStatusChart(chartData) {
+            let ctx = document.querySelector('#products-status-chart')
+
+            return new Chart(ctx, {
+                type: 'pie',
+                data: {
+                    labels: chartData.labels,
+                    datasets: [{
+                        label: 'Products in stock',
+                        fill: false,
+                        data: chartData.data,
+                        borderWidth: 3,
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    title: {
+                        display: false,
+                    }
+                }
+            })
+        }
+
         document.addEventListener('DOMContentLoaded', () => {
             drawUsersChart({!! $usersTrends !!})
             drawOrdersChart({!! $ordersTrends !!})
+            drawOrdersStatusChart({!! $ordersStatusTrends !!})
+            drawProductsStatusChart({!! $productsStatusTrends !!})
 
             document.querySelector('#users-trends').addEventListener('change', e => {
                 if (e.target.value !== 'custom') {

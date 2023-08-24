@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Enums\ProductStatus;
 use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -19,7 +20,9 @@ class ProductFactory extends Factory
         return [
             'name' => $name,
             'slug' => Str::slug($name),
-            'price' => $this->faker->randomNumber(2)
+            'price' => $this->faker->randomNumber(2),
+            'status' => $this->faker->randomElement(ProductStatus::values()),
+            'created_at' => $this->faker->dateTimeBetween('-12 months')
         ];
     }
 }
