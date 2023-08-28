@@ -6,7 +6,6 @@ use App\Models\Order;
 use App\Models\Product;
 use App\Models\User;
 use Eliseekn\LaravelMetrics\LaravelMetrics;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 
 class DashboardController extends Controller
@@ -20,20 +19,18 @@ class DashboardController extends Controller
         }
 
         return view('dashboard', [
-            'totalUsers' => $this->metrics(User::query(), $period),
-            'totalProducts' => $this->metrics(Product::query(), $period),
-            'totalOrders' => $this->metrics(Order::query(), $period),
-            'usersTrends' => json_encode($this->trends(User::query(), $period)),
-            'ordersTrends' => json_encode($this->trends(Order::query(), $period)),
-            'ordersStatusTrends' => json_encode($this->trendsByStatus(Order::query(), $period)),
-            'productsStatusTrends' => json_encode($this->trendsByStatus(Product::query(), $period)),
+            'totalUsers' => $this->metrics(User::metrics()->count(), $period),
+            'totalProducts' => $this->metrics(Product::metrics()->count(), $period),
+            'totalOrders' => $this->metrics(Order::metrics()->count(), $period),
+            'usersTrends' => json_encode($this->trends(User::metrics()->count(), $period)),
+            'ordersTrends' => json_encode($this->trends(Order::metrics()->count(), $period)),
+            'ordersStatusTrends' => json_encode($this->trendsByStatus(Order::metrics()->count(), $period)),
+            'productsStatusTrends' => json_encode($this->trendsByStatus(Product::metrics()->count(), $period)),
         ]);
     }
 
-    private function metrics(Builder $builder, string|array $period): mixed
+    private function metrics(LaravelMetrics $metrics, string|array $period): mixed
     {
-        $metrics = LaravelMetrics::query($builder)->count();
-
         if (is_array($period)) {
             return $metrics->between($period[0], $period[1])->metrics();
         }
@@ -47,37 +44,33 @@ class DashboardController extends Controller
         };
     }
 
-    private function trends(Builder $builder, string|array $period): array
+    private function trends(LaravelMetrics $metrics, string|array $period): array
     {
-        $trends = LaravelMetrics::query($builder)->count();
-
         if (is_array($period)) {
-            return $trends->between($period[0], $period[1])->trends();
+            return $metrics->between($period[0], $period[1])->trends();
         }
 
         return match($period) {
-            'day' => $trends->byDay()->trends(),
-            'week' => $trends->byWeek()->trends(),
-            'quater_year' => $trends->byMonth(4)->trends(),
-            'half_year' => $trends->byMonth(6)->trends(),
-            'month' => $trends->byMonth()->trends(),
+            'day' => $metrics->byDay()->trends(),
+            'week' => $metrics->byWeek()->trends(),
+            'quater_year' => $metrics->byMonth(4)->trends(),
+            'half_year' => $metrics->byMonth(6)->trends(),
+            'month' => $metrics->byMonth()->trends(),
         };
     }
 
-    private function trendsByStatus(Builder $builder, string|array $period): array
+    private function trendsByStatus(LaravelMetrics $metrics, string|array $period): array
     {
-        $trends = LaravelMetrics::query($builder)->count();
-
         if (is_array($period)) {
-            return $trends->labelColumn('status')->between($period[0], $period[1])->trends();
+            return $metrics->labelColumn('status')->between($period[0], $period[1])->trends();
         }
 
         return match($period) {
-            'day' => $trends->labelColumn('status')->byDay()->trends(),
-            'week' => $trends->labelColumn('status')->byWeek()->trends(),
-            'quater_year' => $trends->labelColumn('status')->byMonth(4)->trends(),
-            'half_year' => $trends->labelColumn('status')->byMonth(6)->trends(),
-            'month' => $trends->labelColumn('status')->byMonth()->trends(),
+            'day' => $metrics->labelColumn('status')->byDay()->trends(),
+            'week' => $metrics->labelColumn('status')->byWeek()->trends(),
+            'quater_year' => $metrics->labelColumn('status')->byMonth(4)->trends(),
+            'half_year' => $metrics->labelColumn('status')->byMonth(6)->trends(),
+            'month' => $metrics->labelColumn('status')->byMonth()->trends(),
         };
     }
 }
