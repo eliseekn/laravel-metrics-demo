@@ -47,7 +47,10 @@ class DashboardController extends Controller
     private function trends(LaravelMetrics $metrics, string|array $period): array
     {
         if (is_array($period)) {
-            return $metrics->between($period[0], $period[1])->trends();
+            return $metrics
+                ->between($period[0], $period[1])
+                ->fillEmptyDates()
+                ->trends();
         }
 
         return match($period) {
