@@ -490,16 +490,16 @@
         },
         {
             "name": "eliseekn/laravel-metrics",
-            "version": "v2.7.0",
+            "version": "v2.7.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/eliseekn/laravel-metrics.git",
-                "reference": "a1d1f90f92534b6cf7406e77c26062f46adb6bc5"
+                "reference": "aedb5ff65e6526dfdb72c00e78e5fc870676461d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/eliseekn/laravel-metrics/zipball/a1d1f90f92534b6cf7406e77c26062f46adb6bc5",
-                "reference": "a1d1f90f92534b6cf7406e77c26062f46adb6bc5",
+                "url": "https://api.github.com/repos/eliseekn/laravel-metrics/zipball/aedb5ff65e6526dfdb72c00e78e5fc870676461d",
+                "reference": "aedb5ff65e6526dfdb72c00e78e5fc870676461d",
                 "shasum": ""
             },
             "require": {
@@ -547,9 +547,9 @@
             ],
             "support": {
                 "issues": "https://github.com/eliseekn/laravel-metrics/issues",
-                "source": "https://github.com/eliseekn/laravel-metrics/tree/v2.7.0"
+                "source": "https://github.com/eliseekn/laravel-metrics/tree/v2.7.1"
             },
-            "time": "2023-10-28T09:16:12+00:00"
+            "time": "2023-10-28T21:16:44+00:00"
         },
         {
             "name": "fruitcake/laravel-cors",

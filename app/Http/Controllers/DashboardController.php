@@ -36,7 +36,6 @@ class DashboardController extends Controller
         if (is_array($period)) {
             return $metrics
                 ->countBetween($period)
-                ->groupByMonth()
                 ->metrics();
         }
 
@@ -54,8 +53,7 @@ class DashboardController extends Controller
     {
         if (is_array($period)) {
             return $metrics
-                ->countBetween(period: $period, dateIsoFormat: 'MMMM YYYY')
-                ->groupByDay()
+                ->countBetween($period)
                 ->trends();
         }
 
@@ -75,7 +73,6 @@ class DashboardController extends Controller
             return $metrics
                 ->labelColumn('status')
                 ->countBetween($period)
-                ->groupByMonth()
                 ->trends();
         }
 
