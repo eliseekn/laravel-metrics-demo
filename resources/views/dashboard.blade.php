@@ -20,7 +20,8 @@
                     <option value="quater_year" {{ request()->get('period') === 'quater_year' ? 'selected' : '' }}>This quater year</option>
                     <option value="half_year" {{ request()->get('period') === 'half_year' ? 'selected' : '' }}>This half year</option>
                     <option value="month" {{ request()->get('period') === 'month' ? 'selected' : '' }}>This year</option>
-                    <option value="custom" {{ !in_array(request()->get('period'), ['day', 'week', 'quater_year', 'half_year', 'month']) && !is_null(request()->get('period')) ? 'selected' : '' }}>Custom</option>
+                    <option value="year" {{ request()->get('period') === 'year' ? 'selected' : '' }}>Last 5 years</option>
+                    <option value="custom" {{ !in_array(request()->get('period'), ['day', 'week', 'quater_year', 'half_year', 'month', 'year']) && !is_null(request()->get('period')) ? 'selected' : '' }}>Custom</option>
                 </select>
             </div>
         </div>
@@ -130,7 +131,7 @@
             let ctx = document.querySelector('#orders-chart')
 
             return new Chart(ctx, {
-                type: 'bar',
+                type: 'line',
                 data: {
                     labels: chartData.labels,
                     datasets: [{
@@ -153,7 +154,7 @@
             let ctx = document.querySelector('#orders-status-chart')
 
             return new Chart(ctx, {
-                type: 'pie',
+                type: 'doughnut',
                 data: {
                     labels: chartData.labels,
                     datasets: [{

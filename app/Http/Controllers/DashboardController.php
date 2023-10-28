@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\ProductStatus;
+use App\Enums\OrderStatus;
 use App\Models\Order;
 use App\Models\Product;
 use App\Models\User;
@@ -22,10 +24,10 @@ class DashboardController extends Controller
             'totalUsers' => $this->metrics(User::metrics(), $period),
             'totalProducts' => $this->metrics(Product::metrics(), $period),
             'totalOrders' => $this->metrics(Order::metrics(), $period),
-            'usersTrends' => json_encode($this->trends(User::metrics(), $period)),
-            'ordersTrends' => json_encode($this->trends(Order::metrics(), $period)),
-            'ordersStatusTrends' => json_encode($this->trendsByStatus(Order::metrics(), $period)),
-            'productsStatusTrends' => json_encode($this->trendsByStatus(Product::metrics(), $period)),
+            'usersTrends' => json_encode($this->trends(User::metrics()->fillMissingData(), $period)),
+            'ordersTrends' => json_encode($this->trends(Order::metrics()->fillMissingData(), $period)),
+            'ordersStatusTrends' => json_encode($this->trendsByStatus(Order::metrics()->fillMissingData(missingDataLabels: OrderStatus::values()), $period)),
+            'productsStatusTrends' => json_encode($this->trendsByStatus(Product::metrics()->fillMissingData(missingDataLabels: ProductStatus::values()), $period)),
         ]);
     }
 
@@ -34,6 +36,7 @@ class DashboardController extends Controller
         if (is_array($period)) {
             return $metrics
                 ->countBetween($period)
+                ->groupByMonth()
                 ->metrics();
         }
 
@@ -43,6 +46,7 @@ class DashboardController extends Controller
             'quater_year' => $metrics->countByMonth(count: 4)->metrics(),
             'half_year' => $metrics->countByMonth(count: 6)->metrics(),
             'month' => $metrics->countByMonth()->metrics(),
+            'year' => $metrics->countByYear(count: 5)->metrics()
         };
     }
 
@@ -50,8 +54,8 @@ class DashboardController extends Controller
     {
         if (is_array($period)) {
             return $metrics
-                ->countBetween($period)
-                ->fillEmptyDates()
+                ->countBetween(period: $period, dateIsoFormat: 'MMMM YYYY')
+                ->groupByDay()
                 ->trends();
         }
 
@@ -61,6 +65,7 @@ class DashboardController extends Controller
             'quater_year' => $metrics->countByMonth(count: 4)->trends(),
             'half_year' => $metrics->countByMonth(count: 6)->trends(),
             'month' => $metrics->countByMonth()->trends(),
+            'year' => $metrics->countByYear(count: 5)->trends(),
         };
     }
 
@@ -70,6 +75,7 @@ class DashboardController extends Controller
             return $metrics
                 ->labelColumn('status')
                 ->countBetween($period)
+                ->groupByMonth()
                 ->trends();
         }
 
@@ -79,6 +85,7 @@ class DashboardController extends Controller
             'quater_year' => $metrics->labelColumn('status')->countByMonth(count: 4)->trends(),
             'half_year' => $metrics->labelColumn('status')->countByMonth(count: 6)->trends(),
             'month' => $metrics->labelColumn('status')->countByMonth()->trends(),
+            'year' => $metrics->labelColumn('status')->countByYear(count: 5)->trends(),
         };
     }
 }
