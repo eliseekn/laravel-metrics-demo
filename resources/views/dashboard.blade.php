@@ -16,12 +16,15 @@
             <div>
                 <select id="users-trends" class="form-select">
                     <option value="day" {{ request()->get('period') === 'day' ? 'selected' : '' }}>This week</option>
+                    <option value="last_week" {{ request()->get('period') === 'last_week' ? 'selected' : '' }}>Since last week</option>
                     <option value="week" {{ request()->get('period') === 'week' ? 'selected' : '' }}>This month</option>
+                    <option value="last_month" {{ request()->get('period') === 'last_month' ? 'selected' : '' }}>Since last month</option>
                     <option value="quater_year" {{ request()->get('period') === 'quater_year' ? 'selected' : '' }}>This quater year</option>
                     <option value="half_year" {{ request()->get('period') === 'half_year' ? 'selected' : '' }}>This half year</option>
                     <option value="month" {{ request()->get('period') === 'month' ? 'selected' : '' }}>This year</option>
+                    <option value="last_year" {{ request()->get('period') === 'last_year' ? 'selected' : '' }}>Since last year</option>
                     <option value="year" {{ request()->get('period') === 'year' ? 'selected' : '' }}>Last 5 years</option>
-                    <option value="custom" {{ !in_array(request()->get('period'), ['day', 'week', 'quater_year', 'half_year', 'month', 'year']) && !is_null(request()->get('period')) ? 'selected' : '' }}>Custom</option>
+                    <option value="custom" {{ !in_array(request()->get('period'), ['last_week', 'day', 'week', 'quater_year', 'half_year', 'month', 'year', 'last_month', 'last_year']) && !is_null(request()->get('period')) ? 'selected' : '' }}>Custom</option>
                 </select>
             </div>
         </div>
