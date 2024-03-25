@@ -7,6 +7,7 @@ use App\Enums\OrderStatus;
 use App\Models\Order;
 use App\Models\Product;
 use App\Models\User;
+use Eliseekn\LaravelMetrics\Enums\Period;
 use Eliseekn\LaravelMetrics\LaravelMetrics;
 use Illuminate\Http\Request;
 
@@ -39,16 +40,16 @@ class DashboardController extends Controller
                 ->metrics();
         }
 
-        return match($period) {
-            'day' => $metrics->countByDay()->metrics(),
-            'week' => $metrics->countByWeek()->metrics(),
-            'last_week' => $metrics->countFrom(now()->subWeek()->startOfWeek()->format('Y-m-d'))->metrics(),
-            'quater_year' => $metrics->countByMonth(count: 4)->metrics(),
-            'half_year' => $metrics->countByMonth(count: 6)->metrics(),
-            'month' => $metrics->countByMonth()->metrics(),
-            'last_month' => $metrics->countFrom(now()->subMonth()->startOfMonth()->format('Y-m-d'))->metrics(),
-            'year' => $metrics->countByYear(count: 5)->metrics(),
-            'last_year' => $metrics->countFrom(now()->subYear()->startOfYear()->format('Y-m-d'))->metrics(),
+        return match ($period) {
+            'day' => $metrics->countByDay()->withVariation(Period::DAY->value)->metrics(),
+            'week' => $metrics->countByWeek()->withVariation(Period::WEEK->value)->metrics(),
+            'last_week' => $metrics->countFrom(now()->subWeek()->startOfWeek()->format('Y-m-d'))->withVariation(Period::WEEK->value)->metrics(),
+            'quater_year' => $metrics->countByMonth(count: 4)->withVariation(Period::MONTH->value)->metrics(),
+            'half_year' => $metrics->countByMonth(count: 6)->withVariation(Period::MONTH->value)->metrics(),
+            'month' => $metrics->countByMonth()->withVariation(Period::MONTH->value)->metrics(),
+            'last_month' => $metrics->countFrom(now()->subMonth()->startOfMonth()->format('Y-m-d'))->withVariation(Period::MONTH->value)->metrics(),
+            'year' => $metrics->countByYear(count: 5)->withVariation(Period::YEAR->value)->metrics(),
+            'last_year' => $metrics->countFrom(now()->subYear()->startOfYear()->format('Y-m-d'))->withVariation(Period::YEAR->value)->metrics(),
         };
     }
 
@@ -60,7 +61,7 @@ class DashboardController extends Controller
                 ->trends();
         }
 
-        return match($period) {
+        return match ($period) {
             'day' => $metrics->countByDay()->trends(),
             'last_week' => $metrics->countFrom(now()->subWeek()->startOfWeek()->format('Y-m-d'))->trends(),
             'week' => $metrics->countByWeek()->trends(),
@@ -82,7 +83,7 @@ class DashboardController extends Controller
                 ->trends();
         }
 
-        return match($period) {
+        return match ($period) {
             'day' => $metrics->labelColumn('status')->countByDay()->trends(),
             'last_week' => $metrics->labelColumn('status')->countFrom(now()->subWeek()->startOfWeek()->format('Y-m-d'))->trends(),
             'week' => $metrics->labelColumn('status')->countByWeek()->trends(),
