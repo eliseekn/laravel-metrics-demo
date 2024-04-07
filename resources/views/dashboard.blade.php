@@ -34,7 +34,7 @@
                 <div class="card shadow-sm h-100">
                     <div class="card-body">
                         <h5 class="card-title text-capitalize">Total users</h5>
-                        <p class="card-text fs-2 fw-bold">{{ $totalUsers }}</p>
+                        <p class="card-text fs-2 fw-bold mb-1">{{ $totalUsers }}</p>
                     </div>
                 </div>
             </div>
@@ -43,7 +43,7 @@
                 <div class="card shadow-sm h-100">
                     <div class="card-body">
                         <h5 class="card-title text-capitalize">Total products</h5>
-                        <p class="card-text fs-2 fw-bold">{{ $totalProducts }}</p>
+                        <p class="card-text fs-2 fw-bold mb-1">{{ $totalProducts }}</p>
                     </div>
                 </div>
             </div>
@@ -52,7 +52,45 @@
                 <div class="card shadow-sm h-100">
                     <div class="card-body">
                         <h5 class="card-title text-capitalize">Total orders</h5>
-                        <p class="card-text fs-2 fw-bold">{{ $totalOrders }}</p>
+                        <p class="card-text fs-2 fw-bold mb-1">{{ $totalOrders }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 mt-4">
+            <div class="col">
+                <div class="card shadow-sm h-100">
+                    <div class="card-body">
+                        <h5 class="card-title text-capitalize">Total users (today)</h5>
+                        <p class="card-text fs-2 fw-bold mb-1">{{ $totalUsersToday['count'] ?? $totalUsersToday }}</p>
+                        @if (!empty($totalUsersToday['variation']))
+                            <p class="card-text fs-6">{{ $totalUsersToday['variation']['type'] }} of {{ $totalUsersToday['variation']['value'] }} since yesterday</p>
+                        @endif
+                    </div>
+                </div>
+            </div>
+
+            <div class="col">
+                <div class="card shadow-sm h-100">
+                    <div class="card-body">
+                        <h5 class="card-title text-capitalize">Total products (today)</h5>
+                        <p class="card-text fs-2 fw-bold mb-1">{{ $totalProductsToday['count'] ?? $totalProductsToday }}</p>
+                        @if (!empty($totalProductsToday['variation']))
+                            <p class="card-text fs-6">{{ $totalProductsToday['variation']['type'] }} of {{ $totalProductsToday['variation']['value'] }} since yesterday</p>
+                        @endif
+                    </div>
+                </div>
+            </div>
+
+            <div class="col">
+                <div class="card shadow-sm h-100">
+                    <div class="card-body">
+                        <h5 class="card-title text-capitalize">Total orders (today)</h5>
+                        <p class="card-text fs-2 fw-bold mb-1">{{ $totalOrdersToday['count'] ?? $totalOrdersToday }}</p>
+                        @if (!empty($totalOrdersToday['variation']))
+                            <p class="card-text fs-6">{{ $totalOrdersToday['variation']['type'] }} of {{ $totalOrdersToday['variation']['value'] }} since yesterday</p>
+                        @endif
                     </div>
                 </div>
             </div>

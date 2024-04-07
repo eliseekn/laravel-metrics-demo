@@ -22,12 +22,15 @@ class DashboardController extends Controller
 
         return view('dashboard', [
             'totalUsers' => $this->metrics(User::metrics(), $period),
+            'totalUsersToday' => User::metrics()->countByDay(count: 1)->metrics(1),
             'totalProducts' => $this->metrics(Product::metrics(), $period),
+            'totalProductsToday' => Product::metrics()->countByDay(count: 1)->metrics(1),
             'totalOrders' => $this->metrics(Order::metrics(), $period),
+            'totalOrdersToday' => Order::metrics()->countByDay(count: 1)->metrics(1),
             'usersTrends' => json_encode($this->trends(User::metrics()->fillMissingData(), $period)),
             'ordersTrends' => json_encode($this->trends(Order::metrics()->fillMissingData(), $period)),
-            'ordersStatusTrends' => json_encode($this->trendsByStatus(Order::metrics()->fillMissingData(missingDataLabels: OrderStatus::values()), $period)),
-            'productsStatusTrends' => json_encode($this->trendsByStatus(Product::metrics()->fillMissingData(missingDataLabels: ProductStatus::values()), $period)),
+            'ordersStatusTrends' => json_encode($this->trendsByStatus(Order::metrics()->fillMissingData(), $period)),
+            'productsStatusTrends' => json_encode($this->trendsByStatus(Product::metrics()->fillMissingData(), $period)),
         ]);
     }
 
@@ -79,19 +82,19 @@ class DashboardController extends Controller
             return $metrics
                 ->labelColumn('status')
                 ->countBetween($period)
-                ->trends();
+                ->trends(true);
         }
 
         return match($period) {
-            'day' => $metrics->labelColumn('status')->countByDay()->trends(),
-            'last_week' => $metrics->labelColumn('status')->countFrom(now()->subWeek()->startOfWeek()->format('Y-m-d'))->trends(),
-            'week' => $metrics->labelColumn('status')->countByWeek()->trends(),
-            'quater_year' => $metrics->labelColumn('status')->countByMonth(count: 4)->trends(),
-            'half_year' => $metrics->labelColumn('status')->countByMonth(count: 6)->trends(),
-            'month' => $metrics->labelColumn('status')->countByMonth()->trends(),
-            'last_month' => $metrics->labelColumn('status')->countFrom(now()->subMonth()->startOfMonth()->format('Y-m-d'))->trends(),
-            'year' => $metrics->labelColumn('status')->countByYear(count: 5)->trends(),
-            'last_year' => $metrics->labelColumn('status')->countFrom(now()->subYear()->startOfYear()->format('Y-m-d'))->trends(),
+            'day' => $metrics->labelColumn('status')->countByDay()->trends(true),
+            'last_week' => $metrics->labelColumn('status')->countFrom(now()->subWeek()->startOfWeek()->format('Y-m-d'))->trends(true),
+            'week' => $metrics->labelColumn('status')->countByWeek()->trends(true),
+            'quater_year' => $metrics->labelColumn('status')->countByMonth(count: 4)->trends(true),
+            'half_year' => $metrics->labelColumn('status')->countByMonth(count: 6)->trends(true),
+            'month' => $metrics->labelColumn('status')->countByMonth()->trends(true),
+            'last_month' => $metrics->labelColumn('status')->countFrom(now()->subMonth()->startOfMonth()->format('Y-m-d'))->trends(true),
+            'year' => $metrics->labelColumn('status')->countByYear(count: 5)->trends(true),
+            'last_year' => $metrics->labelColumn('status')->countFrom(now()->subYear()->startOfYear()->format('Y-m-d'))->trends(true),
         };
     }
 }
