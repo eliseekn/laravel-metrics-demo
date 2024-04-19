@@ -2,11 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Enums\ProductStatus;
-use App\Enums\OrderStatus;
 use App\Models\Order;
 use App\Models\Product;
 use App\Models\User;
+use Eliseekn\LaravelMetrics\Enums\Period;
 use Eliseekn\LaravelMetrics\LaravelMetrics;
 use Illuminate\Http\Request;
 
@@ -22,11 +21,11 @@ class DashboardController extends Controller
 
         return view('dashboard', [
             'totalUsers' => $this->metrics(User::metrics(), $period),
-            'totalUsersToday' => User::metrics()->countByDay(count: 1)->metrics(1),
+            'totalUsersToday' => User::metrics()->countByDay(count: 1)->metricsWithVariations(1, Period::DAY->value),
             'totalProducts' => $this->metrics(Product::metrics(), $period),
-            'totalProductsToday' => Product::metrics()->countByDay(count: 1)->metrics(1),
+            'totalProductsToday' => Product::metrics()->countByDay(count: 1)->metricsWithVariations(1, Period::DAY->value),
             'totalOrders' => $this->metrics(Order::metrics(), $period),
-            'totalOrdersToday' => Order::metrics()->countByDay(count: 1)->metrics(1),
+            'totalOrdersToday' => Order::metrics()->countByDay(count: 1)->metricsWithVariations(1, Period::DAY->value),
             'usersTrends' => json_encode($this->trends(User::metrics()->fillMissingData(), $period)),
             'ordersTrends' => json_encode($this->trends(Order::metrics()->fillMissingData(), $period)),
             'ordersStatusTrends' => json_encode($this->trendsByStatus(Order::metrics()->fillMissingData(), $period)),

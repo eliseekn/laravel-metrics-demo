@@ -65,7 +65,7 @@
                         <h5 class="card-title text-capitalize">Total users (today)</h5>
                         <p class="card-text fs-2 fw-bold mb-1">{{ $totalUsersToday['count'] ?? $totalUsersToday }}</p>
                         @if (!empty($totalUsersToday['variation']))
-                            <p class="card-text fs-6">{{ $totalUsersToday['variation']['type'] }} of {{ $totalUsersToday['variation']['value'] }} since yesterday</p>
+                            <p class="card-text fs-6">{{ $totalUsersToday['variation']['type'] }} of {{ $totalUsersToday['variation']['value'] }}</p>
                         @endif
                     </div>
                 </div>
@@ -77,7 +77,7 @@
                         <h5 class="card-title text-capitalize">Total products (today)</h5>
                         <p class="card-text fs-2 fw-bold mb-1">{{ $totalProductsToday['count'] ?? $totalProductsToday }}</p>
                         @if (!empty($totalProductsToday['variation']))
-                            <p class="card-text fs-6">{{ $totalProductsToday['variation']['type'] }} of {{ $totalProductsToday['variation']['value'] }} since yesterday</p>
+                            <p class="card-text fs-6">{{ $totalProductsToday['variation']['type'] }} of {{ $totalProductsToday['variation']['value'] }}</p>
                         @endif
                     </div>
                 </div>
@@ -89,7 +89,7 @@
                         <h5 class="card-title text-capitalize">Total orders (today)</h5>
                         <p class="card-text fs-2 fw-bold mb-1">{{ $totalOrdersToday['count'] ?? $totalOrdersToday }}</p>
                         @if (!empty($totalOrdersToday['variation']))
-                            <p class="card-text fs-6">{{ $totalOrdersToday['variation']['type'] }} of {{ $totalOrdersToday['variation']['value'] }} since yesterday</p>
+                            <p class="card-text fs-6">{{ $totalOrdersToday['variation']['type'] }} of {{ $totalOrdersToday['variation']['value'] }}</p>
                         @endif
                     </div>
                 </div>
