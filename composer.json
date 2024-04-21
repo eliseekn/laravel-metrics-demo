@@ -20,7 +20,7 @@
     ],
     "require": {
         "php": "^8.1",
-        "eliseekn/laravel-metrics": "v2.9.2",
+        "eliseekn/laravel-metrics": "v2.9.3",
         "fruitcake/laravel-cors": "dev-develop",
         "laravel/framework": "^10.10",
         "laravel/sanctum": "^3.2",

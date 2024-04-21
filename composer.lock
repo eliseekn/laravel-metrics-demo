@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "9995a12150ddc935b2768cde939ae946",
+    "content-hash": "0ae6f485c8dc12aa90b5ff50d88b9347",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -559,16 +559,16 @@
         },
         {
             "name": "eliseekn/laravel-metrics",
-            "version": "v2.9.2",
+            "version": "v2.9.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/eliseekn/laravel-metrics.git",
-                "reference": "61fdd302da9d614ffd9ea3f0988c22c23cca9b10"
+                "reference": "60f605eefb69e19d639c9dac51fee10096f0a3b6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/eliseekn/laravel-metrics/zipball/61fdd302da9d614ffd9ea3f0988c22c23cca9b10",
-                "reference": "61fdd302da9d614ffd9ea3f0988c22c23cca9b10",
+                "url": "https://api.github.com/repos/eliseekn/laravel-metrics/zipball/60f605eefb69e19d639c9dac51fee10096f0a3b6",
+                "reference": "60f605eefb69e19d639c9dac51fee10096f0a3b6",
                 "shasum": ""
             },
             "require": {
@@ -616,9 +616,9 @@
             ],
             "support": {
                 "issues": "https://github.com/eliseekn/laravel-metrics/issues",
-                "source": "https://github.com/eliseekn/laravel-metrics/tree/v2.9.2"
+                "source": "https://github.com/eliseekn/laravel-metrics/tree/v2.9.3"
             },
-            "time": "2024-04-19T12:08:55+00:00"
+            "time": "2024-04-21T10:33:21+00:00"
         },
         {
             "name": "fruitcake/laravel-cors",
