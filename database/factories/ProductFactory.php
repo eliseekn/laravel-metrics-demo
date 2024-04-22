@@ -3,26 +3,29 @@
 namespace Database\Factories;
 
 use App\Enums\ProductStatus;
-use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Str;
 
+/**
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Product>
+ */
 class ProductFactory extends Factory
 {
     /**
      * Define the model's default state.
      *
-     * @return array
+     * @return array<string, mixed>
      */
-    public function definition()
+    public function definition(): array
     {
-        $name = $this->faker->unique()->word();
+        $name = fake()->unique()->word();
 
         return [
             'name' => $name,
             'slug' => Str::slug($name),
-            'price' => $this->faker->randomNumber(2),
-            'status' => $this->faker->randomElement(ProductStatus::values()),
-            'created_at' => $this->faker->dateTimeBetween('-12 months')
+            'price' => fake()->randomNumber(2),
+            'status' => fake()->randomElement(ProductStatus::values()),
+            'created_at' => fake()->dateTimeBetween('-12 months')
         ];
     }
 }

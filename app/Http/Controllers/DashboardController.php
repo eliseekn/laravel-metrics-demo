@@ -19,7 +19,7 @@ class DashboardController extends Controller
             $period = explode('~', $period, 2);
         }
 
-        return view('dashboard', [
+        return view('index', [
             'totalUsers' => $this->metrics(User::metrics(), $period),
             'totalUsersToday' => User::metrics()->countByDay(count: 1)->metricsWithVariations(1, Period::DAY->value),
             'totalProducts' => $this->metrics(Product::metrics(), $period),
