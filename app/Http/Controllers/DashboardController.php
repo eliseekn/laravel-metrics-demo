@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\OrderStatus;
 use App\Models\Order;
 use App\Models\Product;
 use App\Models\User;
+use Eliseekn\LaravelMetrics\Enums\Aggregate;
 use Eliseekn\LaravelMetrics\Enums\Period;
 use Eliseekn\LaravelMetrics\LaravelMetrics;
 use Illuminate\Http\Request;
@@ -27,7 +29,7 @@ class DashboardController extends Controller
             'totalOrders' => $this->metrics(Order::metrics(), $period),
             'totalOrdersToday' => Order::metrics()->countByDay(count: 1)->metricsWithVariations(1, Period::DAY->value),
             'usersTrends' => json_encode($this->trends(User::metrics()->fillMissingData(), $period)),
-            'ordersTrends' => json_encode($this->trends(Order::metrics()->fillMissingData(), $period)),
+            'ordersTrends' => json_encode($this->trends(Order::metrics()->fillMissingData(), $period, OrderStatus::values(), 'status')),
             'ordersStatusTrends' => json_encode($this->trendsByStatus(Order::metrics()->fillMissingData(), $period)),
             'productsStatusTrends' => json_encode($this->trendsByStatus(Product::metrics()->fillMissingData(), $period)),
         ]);
@@ -41,7 +43,7 @@ class DashboardController extends Controller
                 ->metrics();
         }
 
-        return match($period) {
+        return match ($period) {
             'day' => $metrics->countByDay()->metrics(),
             'week' => $metrics->countByWeek()->metrics(),
             'last_week' => $metrics->countFrom(now()->subWeek()->startOfWeek()->format('Y-m-d'))->metrics(),
@@ -54,25 +56,29 @@ class DashboardController extends Controller
         };
     }
 
-    private function trends(LaravelMetrics $metrics, string|array $period): array
+    private function trends(LaravelMetrics $metrics, string|array $period, array $groupedDataLabels = [], string $column = ''): array
     {
         if (is_array($period)) {
             return $metrics
-                ->countBetween($period)
+                ->countBetween($period, ! empty($groupedDataLabels) ? $column : 'id')
                 ->trends();
         }
 
-        return match($period) {
-            'day' => $metrics->countByDay()->trends(),
-            'last_week' => $metrics->countFrom(now()->subWeek()->startOfWeek()->format('Y-m-d'))->trends(),
-            'week' => $metrics->countByWeek()->trends(),
-            'quater_year' => $metrics->countByMonth(count: 4)->trends(),
-            'half_year' => $metrics->countByMonth(count: 6)->trends(),
-            'month' => $metrics->countByMonth()->trends(),
-            'last_month' => $metrics->countFrom(now()->subMonth()->startOfMonth()->format('Y-m-d'))->trends(),
-            'year' => $metrics->countByYear(count: 5)->trends(),
-            'last_year' => $metrics->countFrom(now()->subYear()->startOfYear()->format('Y-m-d'))->trends(),
+        $metrics = match ($period) {
+            'day' => $metrics->countByDay(column: ! empty($groupedDataLabels) ? $column : 'id'),
+            'last_week' => $metrics->countFrom(now()->subWeek()->startOfWeek()->format('Y-m-d'), ! empty($groupedDataLabels) ? $column : 'id'),
+            'week' => $metrics->countByWeek(column: ! empty($groupedDataLabels) ? $column : 'id'),
+            'quater_year' => $metrics->countByMonth(count: 4, column: ! empty($groupedDataLabels) ? $column : 'id'),
+            'half_year' => $metrics->countByMonth(count: 6, column: ! empty($groupedDataLabels) ? $column : 'id'),
+            'month' => $metrics->countByMonth(column: ! empty($groupedDataLabels) ? $column : 'id'),
+            'last_month' => $metrics->countFrom(now()->subMonth()->startOfMonth()->format('Y-m-d'), ! empty($groupedDataLabels) ? $column : 'id'),
+            'year' => $metrics->countByYear(count: 5, column: ! empty($groupedDataLabels) ? $column : 'id'),
+            'last_year' => $metrics->countFrom(now()->subYear()->startOfYear()->format('Y-m-d'), ! empty($groupedDataLabels) ? $column : 'id'),
         };
+
+        return ! empty($groupedDataLabels)
+            ? $metrics->groupData($groupedDataLabels, Aggregate::SUM->value)->trends()
+            : $metrics->trends();
     }
 
     private function trendsByStatus(LaravelMetrics $metrics, string|array $period): array
@@ -84,7 +90,7 @@ class DashboardController extends Controller
                 ->trends(true);
         }
 
-        return match($period) {
+        return match ($period) {
             'day' => $metrics->labelColumn('status')->countByDay()->trends(true),
             'last_week' => $metrics->labelColumn('status')->countFrom(now()->subWeek()->startOfWeek()->format('Y-m-d'))->trends(true),
             'week' => $metrics->labelColumn('status')->countByWeek()->trends(true),

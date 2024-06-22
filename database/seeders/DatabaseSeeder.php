@@ -16,10 +16,10 @@ class DatabaseSeeder extends Seeder
     {
         $products = Product::factory(50)->create();
 
-        for ($i = 1; $i <=5; $i++) {
+        for ($i = 1; $i <= 5; $i++) {
             foreach ($products as $product) {
                 Order::factory(10)->for(User::factory())->create([
-                    'product_id' => $product->id
+                    'product_id' => $product->id,
                 ]);
             }
         }

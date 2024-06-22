@@ -25,7 +25,7 @@ class ProductFactory extends Factory
             'slug' => Str::slug($name),
             'price' => fake()->randomNumber(2),
             'status' => fake()->randomElement(ProductStatus::values()),
-            'created_at' => fake()->dateTimeBetween('-12 months')
+            'created_at' => fake()->dateTimeBetween('-12 months'),
         ];
     }
 }

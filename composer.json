@@ -6,7 +6,7 @@
     "license": "MIT",
     "require": {
         "php": "^8.2",
-        "eliseekn/laravel-metrics": "v3.0.2",
+        "eliseekn/laravel-metrics": "v3.1.0",
         "laravel/framework": "^11.4.0",
         "laravel/tinker": "^2.9"
     },

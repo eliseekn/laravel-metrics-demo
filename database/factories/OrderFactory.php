@@ -23,7 +23,7 @@ class OrderFactory extends Factory
             'user_id' => User::factory(),
             'product_id' => Product::factory(),
             'status' => fake()->randomElement(OrderStatus::values()),
-            'created_at' => fake()->dateTimeBetween('-12 months')
+            'created_at' => fake()->dateTimeBetween('-12 months'),
         ];
     }
 }

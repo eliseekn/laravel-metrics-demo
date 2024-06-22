@@ -176,9 +176,24 @@
             data: {
                 labels: chartData.labels,
                 datasets: [{
-                    label: 'Orders',
+                    label: 'Total',
                     fill: false,
-                    data: chartData.data,
+                    data: chartData.data.total,
+                    borderWidth: 3,
+                }, {
+                    label: 'Pending',
+                    fill: false,
+                    data: chartData.data.pending,
+                    borderWidth: 3,
+                }, {
+                    label: 'Delivered',
+                    fill: false,
+                    data: chartData.data.delivered,
+                    borderWidth: 3,
+                }, {
+                    label: 'Cancelled',
+                    fill: false,
+                    data: chartData.data.cancelled,
                     borderWidth: 3,
                 }]
             },

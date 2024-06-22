@@ -14,6 +14,6 @@ class Product extends Model
         'name',
         'price',
         'slug',
-        'status'
+        'status',
     ];
 }
